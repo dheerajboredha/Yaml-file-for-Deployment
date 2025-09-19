@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-image 
+  labels: 
+    app: myapp
+    env: dev
+  namespace: devnamespace
+  annotations: 
+    # myecrimage:
+spec:
+  replicas: 4
+  minReadySeconds: 6
+  selector:
+    matchExpressions: 
+      # - key: web  # key name and template inside labels name must be same ex: web-->web
+      #   operator: In
+      #   values: 
+      #     - yellowapp-pods
+      - key: env
+        operator: NotIn
+        values: 
+          - dev. 
+  template:
+    metadata:
+      name: podlevellabels 
+      labels:
+        web: yellowapp-pods
+        env: prod
+    spec:
+      cotainers:
+        - name: yellowimage
+          image: 
+          ports:
+            - name: yelloapp-ports
+              containerPort: 80
+              protocol: TCP
+          startupProbe: 
+            httpget:
+              path: "/dheeraj"
+              port: 80 
+          livenessProbe: 
+            tcpSocket:
+              port: 80
+          readinessProbe:
+            exec:
+              command: 
+                - echo hi good morning
+          resources:
+            requests:
+              cpu: 100M
+              memory: 150Mi
+            limits: 
+              cpu: 200M
+              memory: 250Mi
+
+  
