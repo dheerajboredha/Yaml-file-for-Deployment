@@ -20,13 +20,21 @@ spec:
       - key: env
         operator: NotIn
         values: 
-          - dev. 
+          - dev 
+      - key: frontend
+        operator: Exists
+    strategy: 
+      type: RollingUpdate
+      rollingUpdate: 
+        maxsurge: 1
+        maxUnavailable: 1
   template:
     metadata:
       name: podlevellabels 
       labels:
         web: yellowapp-pods
         env: prod
+        frontend: web
     spec:
       cotainers:
         - name: yellowimage
@@ -51,7 +59,7 @@ spec:
               cpu: 100M
               memory: 150Mi
             limits: 
-              cpu: 200M
-              memory: 250Mi
+              cpu: 300M
+              memory: 300Mi
 
   
